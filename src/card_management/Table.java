@@ -1,6 +1,6 @@
 package card_management;
 
-import game_management.Player;
+import game_management.players.Player;
 
 import java.util.ArrayList;
 
@@ -10,14 +10,16 @@ public class Table {
     private String winner;
     private int startingPlayer;
     private Card winningCard;
-    private Seme briscola;
+    private Semi briscola;
+    private Hand hand;
+    private Player tempWinningPlayer;
 
-    public Table(Seme briscola) {
+    public Table(Semi briscola) {
         this.startingPlayer=0;
         this.cards = new ArrayList<>();
         this.briscola = briscola;
         isFirst = true;
-        Hand hand = new Hand(cards);
+        this.hand = new Hand(cards);
     }
 
     public void addCard(Card card, Player player) {
@@ -34,10 +36,11 @@ public class Table {
             }
             else {
                 if(card.getSeme() == briscola && winningCard.getSeme()!=briscola) {
-                    tempWinner(card,player);
+                tempWinner(card,player);
                 }
             }
         }
+        card.setOwner(player.getRole());
         this.cards.add(card);
     }
 
@@ -45,10 +48,15 @@ public class Table {
         winner = player.getPlayerID();
         winningCard = card;
         startingPlayer = player.getOrder();
+        tempWinningPlayer = player;
     }
 
     public ArrayList<Card> getCards() {
         return cards;
+    }
+
+    public Hand getHand() {
+        return this.hand;
     }
 
     public String getWinner() {
@@ -57,5 +65,13 @@ public class Table {
 
     public int getStartingPlayer() {
         return startingPlayer;
+    }
+
+    public Card getWinningCard() {
+        return winningCard;
+    }
+
+    public Player getTempWinningPlayer() {
+        return tempWinningPlayer;
     }
 }

@@ -1,5 +1,8 @@
 package card_management;
 
+import GUI.frames.NewGameScreen;
+
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -15,25 +18,28 @@ public class Deck {
         Collections.shuffle(deck);
     }
 
+
     private  void createDeck() {
-        for(Seme s: Seme.values()) {
+        int factor = 0;
+        for(Semi s: Semi.values()) {
             for(int i = 1; i < 11; i++) {
+
+
                 Card card = new Card(s,i);
+                URL resource;
+                if(s == Semi.COPPE) {
+                    resource = getClass().getClassLoader().getResource( "resources/card_images/" + "a" + i + ".png" );
+                }
+                else {
+                    resource = getClass().getClassLoader().getResource( "resources/card_images/" + "a" + (i+factor) + ".png" );
+                }
+                card.setCardImage(NewGameScreen.findImage(resource));
                 deck.add(card);
             }
+            factor +=10;
+
         }
         addValore();
-    }
-
-    public Card distributeCard() {
-        if(deck.size()>0) {
-            Card card = this.deck.get(deck.size() - 1);
-            this.deck.remove(deck.size() - 1);
-            return card;
-        }
-        else {
-            return null;
-        }
     }
 
     private void addValore() {
@@ -42,7 +48,7 @@ public class Deck {
             switch (c.getValor()) {
                 case 1:
                     valore = Valore.ACE;
-                    break;
+                   break;
                 case 2:
                     valore = Valore.TWO;
                     break;
@@ -73,5 +79,27 @@ public class Deck {
             }
             c.setValue(valore);
         }
+    }
+
+    public Card distributeCard() {
+        if(deck.size()>0) {
+            Card card = this.deck.get(deck.size() - 1);
+            this.deck.remove(deck.size() - 1);
+            return card;
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "deck=" + deck.toString() +
+                '}';
+    }
+
+    public ArrayList<Card> getDeck() {
+        return deck;
     }
 }

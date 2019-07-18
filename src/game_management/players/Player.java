@@ -1,25 +1,34 @@
-package game_management;
+package game_management.players;
 
 import card_management.Card;
 import card_management.Hand;
+
 import java.util.ArrayList;
 
-public class Player implements Comparable<Player> {
-    private int order;
-    private Hand hand;
-    private ArrayList<Card> wonCards;
-    private int score;
-    private String playerID;
+public abstract class Player implements Comparable<Player> {
+      private int order;
+     protected Hand hand;
+    ArrayList<Card> wonCards;
+     int score;
+     String playerID;
     private boolean flag = true;
+     protected PlayerRole role;
 
-    public Player(String name, int order) {
+     Player() {
+    }
+
+    public Player(int order) {
         this.order = order;
         this.wonCards = new ArrayList<>();
         this.hand = new Hand();
         this.score = 0;
-        playerID = name;
+        playerID = "Player " + order;
     }
 
+    public Card pickACard(String string) {
+        return chooseCard(string);
+
+    }
 
     public void winHand(ArrayList<Card> cards) {
         this.wonCards.addAll(cards);
@@ -28,10 +37,19 @@ public class Player implements Comparable<Player> {
         }
     }
 
+    public Card chooseCard(String image) {
+        return this.hand.chooseCard(image);
+    }
 
-    void draw(Card card) {
+    public  void draw(Card card) {
         this.hand.draw(card);
     }
+
+
+    public void sortHand() {
+        this.hand.getCards().sort(Card::compareTo);
+    }
+
 
     public int getOrder() {
         return order;
@@ -45,8 +63,19 @@ public class Player implements Comparable<Player> {
         return playerID;
     }
 
+    public void setCurrentBet(int currentBet) {
+    }
+
+    public void setRole(PlayerRole role) {
+        this.role = role;
+    }
+
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public PlayerRole getRole() {
+        return role;
     }
 
     @Override
@@ -54,11 +83,11 @@ public class Player implements Comparable<Player> {
         return Integer.compare(o.score, this.score);
     }
 
-     int getScore() {
+    public int getScore() {
         return score;
     }
 
-     void divideCardForSuit() {
+    public void divideCardForSuit() {
         if(flag) {
             this.hand.divideCardsForSuit();
             flag = false;

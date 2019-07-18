@@ -1,5 +1,5 @@
 package card_management;
 
-public enum Seme {
+public enum Semi {
     COPPE, DENARI, BASTONI, SPADE
 }

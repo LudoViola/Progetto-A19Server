@@ -12,7 +12,7 @@ public class Hand {
 
     public void draw(Card card)
     {
-        this.cards.add(card);
+            this.cards.add(card);
     }
 
     Hand(ArrayList<Card> cards) {
@@ -23,6 +23,21 @@ public class Hand {
         for (Card c:cards) {
             cardsForSuit[c.getSeme().ordinal()] += 1;
         }
+    }
+
+    public Card chooseCard(String string) {
+        Card card = null;
+        for (Card c:cards) {
+            if(c.getCardImage().toString().equals(string)) {
+                card = c;
+            }
+        }
+        this.cards.remove(card);
+        return card;
+    }
+
+    public void chooseCard(Card card) {
+        this.cards.remove(card);
     }
 
     @Override
@@ -40,5 +55,9 @@ public class Hand {
         if(!this.cards.contains(cards)) {
             this.cards.add(cards);
         }
+    }
+
+    public int[] getCardsForSuit() {
+        return cardsForSuit;
     }
 }
